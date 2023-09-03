@@ -108,17 +108,13 @@ class SmartDataframe(DataframeAbstract, Shortcuts):
             self._df = self._import_from_file(df)
         elif isinstance(df, pd.Series):
             self._df = df.to_frame()
-        elif isinstance(df, (list, dict)):
+        else:
             # if the list can be converted to a dataframe, convert it
-            # otherwise, raise an error
+            # otherwise, return it 'as is'
             try:
                 self._df = pd.DataFrame(df)
             except ValueError:
-                raise ValueError(
-                    "Invalid input data. We cannot convert it to a dataframe."
-                )
-        else:
-            self._df = df
+                self._df = df
 
     def _import_from_file(self, file_path: str):
         """
